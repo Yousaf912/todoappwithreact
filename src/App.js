@@ -1,23 +1,62 @@
 import logo from './logo.svg';
 import './App.css';
+import { Container, Row, Col } from 'react-bootstrap';
+import Logo from './components/logo';
+import Addtask from './components/addtask';
+import Task from './components/Task';
+import Erormessage from './components/erormessage';
+import { useState } from 'react';
 
 function App() {
+  // let data1 = [
+  //   {
+  //     task: "lorem jsdjic cnjlkdsmncls cjnnsdidcc kjdcii sjkdcns kjdnc kdjnc"
+  //   },
+  //   {
+  //     task: "lorem jsdjic cnjlkdsmncls cjnnsdidcc kjdcii sjkdcns kjdnc kdjnc"
+  //   },
+  //   {
+  //     task: "lorem jsdjic cnjlkdsmncls cjnnsdidcc kjdcii sjkdcns kjdnc kdjnc"
+  //   },
+  // ]
+  let data1=[];
+
+  const [data, setData] = useState(data1);
+
+
+  const addtask = (inptdata) => {
+    console.log(inptdata);
+    let newtaskobj = [...data, {
+      task: inptdata,
+    }]
+    setData(newtaskobj)
+  };
+
+  const deltitem = (itemName) => {
+    const updatedList = data.filter(item => item.task !== itemName);
+    setData(updatedList);
+
+    
+};
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Container>
+        <Row className='d-md-flex flex-row-reverse'>
+          <Col md={7} className='text-center  mt-5  p-2'>
+            <div className='main-div pb-4 pt-3'>
+              <Logo ></Logo>
+              <Addtask addtask={addtask}></Addtask>
+            </div>
+
+            <div className='main-div2 p-2'>
+              {data.length === 0 && <Erormessage></Erormessage>}
+              <Task data={data} dltitem={deltitem}></Task>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
