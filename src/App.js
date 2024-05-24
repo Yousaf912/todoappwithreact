@@ -32,13 +32,22 @@ function App() {
     setData(newtaskobj)
   };
 
-  const deltitem = (itemName) => {
-    const updatedList = data.filter(item => item.task !== itemName);
+  const deltitem = (index) => {
+    const updatedList = [...data];
+    updatedList.splice(index, 1);
     setData(updatedList);
+  };
+  
+  const editbtn=(value,i)=>{
+    let newval= prompt("enter text",value.task);
+   let newdata = [...data];
+   newdata[i]={task:newval}
+   setData(newdata)
+  };
 
-    
-};
-
+  const deletAll=()=>{
+    setData([])
+  }
 
   return (
     <div className="App">
@@ -47,12 +56,12 @@ function App() {
           <Col md={7} className='text-center  mt-5  p-2'>
             <div className='main-div pb-4 pt-3'>
               <Logo ></Logo>
-              <Addtask addtask={addtask}></Addtask>
+              <Addtask addtask={addtask} deletAll={deletAll}></Addtask>
             </div>
 
             <div className='main-div2 p-2'>
               {data.length === 0 && <Erormessage></Erormessage>}
-              <Task data={data} dltitem={deltitem}></Task>
+              <Task data={data} dltitem={deltitem} editbtn={editbtn}></Task>
             </div>
           </Col>
         </Row>
